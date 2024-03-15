@@ -1,7 +1,7 @@
 package so
 
 import (
-	"memory-manager-simulator/process" // Importação do pacote memory
+	process "memory-manager-simulator/process_os" // Importação do pacote memory
 )
 
 // SystemOperation representa o sistema operacional
