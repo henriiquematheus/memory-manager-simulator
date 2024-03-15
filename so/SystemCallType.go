@@ -1,3 +1,4 @@
+// Conteúdo do arquivo systemcalltype.go
 package so
 
 // SystemCallType representa os tipos de chamadas de sistema
@@ -21,6 +22,8 @@ func GetSystemCallTypeName(callType SystemCallType) string {
 		return "Read Process"
 	case CLOSE_PROCESS:
 		return "Close Process"
+	case WRITE_PROCESS:
+		return "Write Process"
 	default:
 		return "Unknown System Call Type"
 	}

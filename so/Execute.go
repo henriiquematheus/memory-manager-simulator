@@ -1,6 +1,7 @@
 package so
 
-func main() {
+// Conteúdo do arquivo Execute.go
+func Execute() {
 	so := NewSystemOperation()
 
 	pl := so.SystemCall(CREATE_PROCESS, nil)
