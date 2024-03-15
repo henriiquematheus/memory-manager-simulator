@@ -2,7 +2,14 @@ package memory
 
 import (
 	"fmt"
+	"memory-manager-simulator/process" // Importe o pacote process
 )
+
+func NewMemoryManager(strategy int) *MemoryManager {
+	return &MemoryManager{
+		Strategy: strategy,
+	}
+}
 
 // MemoryManager gerencia a memória física
 type MemoryManager struct {
@@ -39,7 +46,7 @@ func (mm *MemoryManager) writeWithFirstFit(p *process.Process) {
 			if actualSize > 0 {
 				start := i - actualSize
 				end := i - 1
-				address := process.NewAddressMemory(start, end)
+				address := &process.AddressMemory{Start: start, End: end}
 				if p.SizeInMemory <= address.GetSize() {
 					bestPage = address
 				}

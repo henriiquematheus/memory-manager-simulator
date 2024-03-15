@@ -1,34 +1,32 @@
 package so
 
 import (
-	process "memory-manager-simulator/process_os" // Importação do pacote memory
+	"memory-manager-simulator/memory"
+	"memory-manager-simulator/process"
 )
 
 // SystemOperation representa o sistema operacional
 type SystemOperation struct{}
 
 var (
-	globalMemoryManager *MemoryManager
-	globalCpuManager    *CpuManager
-	globalScheduler     *Scheduler
+	globalMemoryManager *memory.MemoryManager
 )
 
-// SystemCall executa uma chamada de sistema
-type SystemOperation struct{}
+func NewSystemOperation() *SystemOperation {
+	return &SystemOperation{}
+}
 
 // SystemCall executa uma chamada de sistema
-func (so *SystemOperation) SystemCall(callType SystemCallType, p *Process) *Process {
-	if callType == CREATE_PROCESS {
+func (so *SystemOperation) SystemCall(callType SystemCallType, p *process.Process) *process.Process {
+	switch callType {
+	case CREATE_PROCESS:
 		if globalMemoryManager == nil {
-			globalMemoryManager = NewMemoryManager(FIRST_FIT)
+			globalMemoryManager = memory.NewMemoryManager(memory.FIRST_FIT)
 		}
-		if globalCpuManager == nil {
-			globalCpuManager = NewCpuManager()
-		}
-		return process.NewProcess() // Usando NewProcess() do pacote process
-	} else if callType == WRITE_PROCESS {
+		return process.NewProcess()
+	case WRITE_PROCESS:
 		globalMemoryManager.Write(p)
-	} else if callType == CLOSE_PROCESS {
+	case CLOSE_PROCESS:
 		globalMemoryManager.Delete(p)
 	}
 	return nil

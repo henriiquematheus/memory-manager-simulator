@@ -1,14 +1,19 @@
 package so
 
 // SystemCallType representa os tipos de chamadas de sistema
+type SystemCallType int
+
+// Constantes para tipos de chamadas de sistema
 const (
-	OPEN_PROCESS = iota
+	OPEN_PROCESS SystemCallType = iota
 	READ_PROCESS
 	CLOSE_PROCESS
+	CREATE_PROCESS
+	WRITE_PROCESS
 )
 
 // GetSystemCallTypeName retorna o nome do tipo de chamada de sistema com base na constante fornecida
-func GetSystemCallTypeName(callType int) string {
+func GetSystemCallTypeName(callType SystemCallType) string {
 	switch callType {
 	case OPEN_PROCESS:
 		return "Open Process"

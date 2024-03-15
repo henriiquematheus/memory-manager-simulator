@@ -1,33 +1,67 @@
-package process_os
+package process
 
 import (
-	"memory-manager-simulator/memory"
-	"memory-manager-simulator/so" // Importe o pacote so
+	"math/rand"
+	"time"
+
+	"github.com/google/uuid"
 )
 
-// SystemOperation representa o sistema operacional
-type SystemOperation struct{}
+// Process representa um processo no sistema
+type Process struct {
+	ID            string        // ID do processo
+	SizeInMemory  int           // Tamanho do processo em memória
+	AddressMemory AddressMemory // Endereço de memória do processo
+}
 
-var (
-	globalMemoryManager *memory.MemoryManager
-	globalCpuManager    *CpuManager
-	globalScheduler     *Scheduler
-)
+// NewProcess cria uma nova instância de Process com um ID gerado aleatoriamente
+func NewProcess() *Process {
+	// Use the current time to initialize the seed for the random number generator
+	src := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(src)
 
-// SystemCall executa uma chamada de sistema
-func (so *SystemOperation) SystemCall(callType so.SystemCallType, p *Process) *Process {
-	if callType == so.CREATE_PROCESS {
-		if globalMemoryManager == nil {
-			globalMemoryManager = memory.NewMemoryManager(memory.FIRST_FIT)
-		}
-		if globalCpuManager == nil {
-			globalCpuManager = NewCpuManager()
-		}
-		return NewProcess()
-	} else if callType == so.WRITE_PROCESS {
-		globalMemoryManager.Write(p)
-	} else if callType == so.CLOSE_PROCESS {
-		globalMemoryManager.Delete(p)
+	// Generate a random UUID for the process ID
+	id := uuid.New().String()
+
+	// List of available memory sizes
+	numbers := []int{1, 2, 4, 6, 10, 20, 30, 50, 100}
+
+	// Select a random size from the list
+	sizeInMemory := numbers[r.Intn(len(numbers))]
+
+	// Return a new instance of Process with the randomly generated ID and memory size
+	return &Process{
+		ID:           id,
+		SizeInMemory: sizeInMemory,
 	}
-	return nil
+}
+
+// GetID retorna o ID do processo
+func (p *Process) GetID() string {
+	return p.ID
+}
+
+// SetID define o ID do processo
+func (p *Process) SetID(id string) {
+	p.ID = id
+}
+
+// GetSizeInMemory retorna o tamanho do processo em memória
+func (p *Process) GetSizeInMemory() int {
+	return p.SizeInMemory
+}
+
+// SetSizeInMemory define o tamanho do processo em memória
+func (p *Process) SetSizeInMemory(sizeInMemory int) {
+	p.SizeInMemory = sizeInMemory
+}
+
+// GetAddressMemory retorna o endereço de memória do processo
+func (p *Process) GetAddressMemory() AddressMemory {
+	return p.AddressMemory
+}
+
+// SetAddressMemory define o endereço de memória do processo
+func (p *Process) SetAddressMemory(am AddressMemory) {
+	p.AddressMemory = am
 }
