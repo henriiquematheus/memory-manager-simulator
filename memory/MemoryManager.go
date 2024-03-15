@@ -2,7 +2,8 @@ package memory
 
 import (
 	"fmt"
-	"memory-manager-simulator/process"
+
+	"github.com/henriiquematheus/memory-manager-simulator/process"
 )
 
 // MemoryManager gerencia a memória física
