@@ -6,7 +6,6 @@ const (
 	BEST_FIT
 )
 
-// Strategy representa a estratégia de alocação de memória
 func GetStrategyName(strategy int) string {
 	switch strategy {
 	case FIRST_FIT:

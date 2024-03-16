@@ -5,29 +5,27 @@ import (
 	"memory-manager-simulator/process"
 )
 
-// SystemOperation representa o sistema operacional
-type SystemOperation struct{}
-
-var (
-	globalMemoryManager *memory.MemoryManager
-)
-
-func NewSystemOperation() *SystemOperation {
-	return &SystemOperation{}
+type SystemOperation struct {
+	memoryManager *memory.MemoryManager
 }
 
-// SystemCall executa uma chamada de sistema
+func NewSystemOperation(strategy int) *SystemOperation {
+	return &SystemOperation{
+		memoryManager: memory.NewMemoryManager(strategy),
+	}
+}
+
 func (so *SystemOperation) SystemCall(callType SystemCallType, p *process.Process) *process.Process {
 	switch callType {
 	case CREATE_PROCESS:
-		if globalMemoryManager == nil {
-			globalMemoryManager = memory.NewMemoryManager(memory.FIRST_FIT)
+		if so.memoryManager == nil {
+			so.memoryManager = memory.NewMemoryManager(memory.FIRST_FIT)
 		}
 		return process.NewProcess()
 	case WRITE_PROCESS:
-		globalMemoryManager.Write(p)
+		so.memoryManager.Write(p)
 	case CLOSE_PROCESS:
-		globalMemoryManager.Delete(p)
+		so.memoryManager.Delete(p)
 	}
 	return nil
 }
