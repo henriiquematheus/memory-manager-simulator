@@ -33,7 +33,7 @@ func (mm *MemoryManager) Delete(p *process.Process) {
 
 func (mm *MemoryManager) writeWithFirstFit(p *process.Process) {
 	fmt.Println("Iniciando a escrita do processo na memória com a estratégia First Fit")
-	fmt.Printf("Tamanho do processo: %d\n", p.SizeInMemory)
+	fmt.Printf("Tamanho do processo (%s): %d\n", p.ID, p.SizeInMemory)
 
 	var bestPage *process.AddressMemory
 	start := -1
@@ -78,7 +78,7 @@ func (mm *MemoryManager) printMemoryStatus() {
 
 func (mm *MemoryManager) writeWithBestFit(p *process.Process) {
 	fmt.Println("Iniciando a escrita do processo na memória com a estratégia Best Fit")
-	fmt.Printf("Tamanho do processo: %d\n", p.SizeInMemory)
+	fmt.Printf("Tamanho do processo (%s): %d\n", p.ID, p.SizeInMemory)
 
 	var bestPage *process.AddressMemory
 	bestFitSize := len(mm.physicalMemory) + 1
@@ -112,8 +112,9 @@ func (mm *MemoryManager) writeWithBestFit(p *process.Process) {
 		fmt.Println("Não há espaço na memória para o processo")
 	} else {
 		fmt.Println("Processo inserido com sucesso")
-		for i := bestPage.Start; i <= bestPage.End; i++ {
+		for i := bestPage.Start; i < bestPage.Start+p.SizeInMemory; i++ {
 			mm.physicalMemory[i] = p.ID
+
 		}
 	}
 	mm.printMemoryStatus()
@@ -122,7 +123,7 @@ func (mm *MemoryManager) writeWithBestFit(p *process.Process) {
 
 func (mm *MemoryManager) writeWithWorstFit(p *process.Process) {
 	fmt.Println("Iniciando a escrita do processo na memória com a estratégia Worst Fit")
-	fmt.Printf("Tamanho do processo: %d\n", p.SizeInMemory)
+	fmt.Printf("Tamanho do processo (%s): %d\n", p.ID, p.SizeInMemory)
 	var worstPage *process.AddressMemory
 	start := -1
 
