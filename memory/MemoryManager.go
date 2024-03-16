@@ -2,7 +2,7 @@ package memory
 
 import (
 	"fmt"
-	"memory-manager-simulator/process"
+	"memory-manager-simulator/process" // Importe o pacote process
 )
 
 func NewMemoryManager(strategy int) *MemoryManager {
@@ -17,17 +17,15 @@ type MemoryManager struct {
 	Strategy       int         // Adicionando a declaração da Strategy como um tipo inteiro
 }
 
-// Write escreve um processo na memória usando a estratégia atual e retorna true se a escrita for bem-sucedida
-func (mm *MemoryManager) Write(p *process.Process) bool {
+// Write escreve um processo na memória usando a estratégia atual
+func (mm *MemoryManager) Write(p *process.Process) {
 	switch mm.Strategy {
 	case FIRST_FIT:
-		return mm.writeWithFirstFit(p)
+		mm.writeWithFirstFit(p)
 	case BEST_FIT:
-		return mm.writeWithBestFit(p)
+		mm.writeWithBestFit(p)
 	case WORST_FIT:
-		return mm.writeWithWorstFit(p)
-	default:
-		return false
+		mm.writeWithWorstFit(p)
 	}
 }
 
@@ -36,7 +34,7 @@ func (mm *MemoryManager) Delete(p *process.Process) {
 	// Implemente a lógica para remover o processo da memória
 }
 
-func (mm *MemoryManager) writeWithFirstFit(p *process.Process) bool {
+func (mm *MemoryManager) writeWithFirstFit(p *process.Process) {
 	fmt.Println("Escrevendo o processo na memória")
 	actualSize := 0
 	var bestPage *process.AddressMemory
@@ -61,15 +59,13 @@ func (mm *MemoryManager) writeWithFirstFit(p *process.Process) bool {
 
 	if bestPage == nil || actualSize == 0 {
 		fmt.Println("Não há espaço na memória")
-		return false
-	}
-
-	fmt.Println("Processo inserido com sucesso")
-	for i := bestPage.Start; i <= bestPage.End; i++ {
-		mm.physicalMemory[i] = p.ID
+	} else {
+		fmt.Println("Processo inserido com sucesso")
+		for i := bestPage.Start; i <= bestPage.End; i++ {
+			mm.physicalMemory[i] = p.ID
+		}
 	}
 	mm.printMemoryStatus()
-	return true
 }
 
 // printMemoryStatus imprime o status da memória
@@ -80,13 +76,11 @@ func (mm *MemoryManager) printMemoryStatus() {
 }
 
 // writeWithBestFit escreve um processo na memória usando a estratégia Best Fit
-func (mm *MemoryManager) writeWithBestFit(p *process.Process) bool {
+func (mm *MemoryManager) writeWithBestFit(p *process.Process) {
 	// Implemente a lógica de escrita usando a estratégia Best Fit
-	return false
 }
 
 // writeWithWorstFit escreve um processo na memória usando a estratégia Worst Fit
-func (mm *MemoryManager) writeWithWorstFit(p *process.Process) bool {
+func (mm *MemoryManager) writeWithWorstFit(p *process.Process) {
 	// Implemente a lógica de escrita usando a estratégia Worst Fit
-	return false
 }

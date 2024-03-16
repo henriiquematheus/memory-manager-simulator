@@ -22,6 +22,8 @@ func GetSystemCallTypeName(callType SystemCallType) string {
 		return "Read Process"
 	case CLOSE_PROCESS:
 		return "Close Process"
+	case CREATE_PROCESS:
+		return "Create Process"
 	case WRITE_PROCESS:
 		return "Write Process"
 	default:
