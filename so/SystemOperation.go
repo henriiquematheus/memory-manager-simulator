@@ -15,16 +15,25 @@ func NewSystemOperation(strategy int) *SystemOperation {
 	}
 }
 
-func (so *SystemOperation) SystemCall(callType SystemCallType, p *process.Process) *process.Process {
+func (so *SystemOperation) SystemCall(callType SystemCallType, arg interface{}) interface{} {
 	switch callType {
 	case CREATE_PROCESS:
-		if so.memoryManager == nil {
-			so.memoryManager = memory.NewMemoryManager(memory.FIRST_FIT)
+		size, ok := arg.(int)
+		if !ok {
+			return nil
 		}
-		return process.NewProcess()
+		return process.NewProcess(size)
 	case WRITE_PROCESS:
+		p, ok := arg.(*process.Process)
+		if !ok {
+			return nil
+		}
 		so.memoryManager.Write(p)
 	case CLOSE_PROCESS:
+		p, ok := arg.(*process.Process)
+		if !ok {
+			return nil
+		}
 		so.memoryManager.Delete(p)
 	}
 	return nil

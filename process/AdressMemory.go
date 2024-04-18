@@ -1,8 +1,8 @@
 package process
 
 type AddressMemory struct {
-	Start int // Início do endereço de memória
-	End   int // Fim do endereço de memória
+	Start int
+	End   int
 }
 
 func (am *AddressMemory) GetStart() int {
@@ -21,7 +21,6 @@ func (am *AddressMemory) SetEnd(end int) {
 	am.End = end
 }
 
-// GetSize retorna o tamanho do endereço de memória
 func (am *AddressMemory) GetSize() int {
 	return (am.End - am.Start) + 1
 }
